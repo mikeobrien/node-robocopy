@@ -1,6 +1,6 @@
 # robocopy
-[![Build Status](https://api.travis-ci.org/mikeobrien/node-robocopy.png?branch=master)](https://travis-ci.org/mikeobrien/node-robocopy)
-[![npm version](https://badge.fury.io/js/node-robocopy.svg)](http://badge.fury.io/js/node-robocopy)
+
+[![npm version](http://img.shields.io/npm/v/robocopy.svg)](https://npmjs.org/package/robocopy) [![build status](http://img.shields.io/travis/mikeobrien/node-robocopy.png.svg)](https://travis-ci.org/mikeobrien/node-robocopy.png)
 
 Node wrapper for [Robocopy](http://technet.microsoft.com/en-us/library/cc733145.aspx).
 
