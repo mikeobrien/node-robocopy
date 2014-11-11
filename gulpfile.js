@@ -13,6 +13,6 @@ gulp.task('test', function() {
 gulp.task('lint', function() {
     gulp.src('**/*.js')
         .pipe(filter([ '*', '!node_modules/**/*']))
-        .pipe(jshint())
+        .pipe(jshint({ node: true }))
         .pipe(jshint.reporter('default'));
 });
