@@ -1,0 +1,36 @@
+{
+  "name": "robocopy",
+  "version": "0.1.0",
+  "description": "Node wrapper for Robocopy.",
+  "homepage": "https://github.com/mikeobrien/node-robocopy",
+  "main": "robocopy.js",
+  "bugs": {
+    "url": "https://github.com/mikeobrien/node-robocopy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikeobrien/node-robocopy.git"
+  },
+  "keywords": [
+    "robocopy",
+    "windows"
+  ],
+  "scripts": {
+    "test": "gulp"
+  },
+  "author": "Mike O'Brien",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "files": [
+    "robocopy.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "expect.js": "~0.3.1",
+    "gulp-mocha": "~1.1.1",
+    "gulp-jshint": "~1.9.0",
+    "gulp": "~3.8.10",
+    "gulp-filter": "~1.0.2"
+  }
+}
