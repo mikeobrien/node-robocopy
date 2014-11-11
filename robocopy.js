@@ -17,7 +17,7 @@ module.exports = function(options, cb) {
     robocopy.stderr.on('data', log);
 
     robocopy.on('exit', function(code) { 
-        if (code > 8) cb(code);
+        if (code > 8) cb('Robocopy failed (' + code + ').');
         else cb();
     });    
 
