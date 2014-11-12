@@ -1,4 +1,4 @@
-var robocopyCommand = require('command'),
+var robocopyCommand = require('./command'),
     process = require('child_process');
 
 module.exports = function(options, cb) {
