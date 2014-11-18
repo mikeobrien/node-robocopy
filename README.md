@@ -14,13 +14,35 @@ $ npm install robocopy --save
 
 The options below mirror those of the robocopy command itself, so check 
 out the [robocopy documentation](http://technet.microsoft.com/en-us/library/cc733145.aspx) 
-for more details. The first parameter is the options followed by a callback 
+for more details. The first parameter is the options:
 
 ```js
 var robocopy = require('robocopy');
 
-robocopy({ ... }, function(error) { ... });
+robocopy({ ... });
+```
 
+Robocopy returns a [promise](https://github.com/kriskowal/q). Success returns `stdout` as an array:
+
+```js
+robocopy({ ... })
+    .done(function(stdout) {
+        console.log(stdout);
+    });
+```
+
+Failure returns and error object that indicates the return code and both `stdout` and `stderr` as an array:
+
+```js
+robocopy({ ... })
+    .fail(function(error) {
+        console.log(error.code);
+        console.log(error.stdout);
+        console.log(error.stderr);
+    });
+```
+
+```js
 robocopy({
 
     // Specifies the path to the source directory.
@@ -343,7 +365,7 @@ robocopy({
         includesFiles: true|false
 
     }
-}, cb);
+});
 ```
 
 ## License

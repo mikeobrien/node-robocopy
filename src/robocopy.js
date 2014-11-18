@@ -1,7 +1,8 @@
 var robocopyCommand = require('./command'),
-    process = require('child_process');
+    process = require('child_process'),
+    Q = require('q');
 
-module.exports = function(options, cb) {
+module.exports = function(options) {
 
     var command = robocopyCommand(options);
 
@@ -9,16 +10,28 @@ module.exports = function(options, cb) {
     console.log(command.path + ' ' + command.args.join(' '));
     console.log();
 
-    var robocopy = process.spawn(command.path, command.args, { windowsVerbatimArguments: true });
+    var robocopy = process.spawn(command.path, command.args, 
+        { windowsVerbatimArguments: true });
 
-    var log = function(message) { console.log(message.toString('utf8')); };
+    var log = function(message, buffer) { 
+        message = message.toString('utf8');
+        console.log(message); 
+        buffer.push(message);
+    };
 
-    robocopy.stdout.on('data', log);
-    robocopy.stderr.on('data', log);
+    var stdout = [];
+    var stderr = [];
+
+    robocopy.stdout.on('data', function(message) { log(message, stdout); });
+    robocopy.stderr.on('data', function(message) { log(message, stderr); });
+
+    var deferred = Q.defer();
 
     robocopy.on('exit', function(code) { 
-        if (code > 8) cb('Robocopy failed (' + code + ').');
-        else cb();
+        if (code > 8) deferred.reject({ code: code, stdout: stdout, stderr: stderr });
+        else deferred.resolve(stdout);
     });    
+
+    return deferred.promise;   
 
 };
