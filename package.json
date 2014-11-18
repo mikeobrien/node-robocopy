@@ -1,6 +1,6 @@
 {
   "name": "robocopy",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Node wrapper for Robocopy.",
   "homepage": "https://github.com/mikeobrien/node-robocopy",
   "main": "src/robocopy.js",
