@@ -13,26 +13,26 @@ module.exports = function(options) {
     var robocopy = process.spawn(command.path, command.args, 
         { windowsVerbatimArguments: true });
 
-    var log = function(message, buffer) { 
+    var log = function(message) { 
         message = message.toString('utf8');
         console.log(message); 
-        buffer.push(message);
+        return message;
     };
 
-    var stdout = [];
-    var stderr = [];
+    var stdout = '';
+    var stderr = '';
 
-    robocopy.stdout.on('data', function(message) { log(message, stdout); });
-    robocopy.stderr.on('data', function(message) { log(message, stderr); });
+    robocopy.stdout.on('data', function(message) { stdout += log(message); });
+    robocopy.stderr.on('data', function(message) { stderr += log(message); });
 
     var deferred = Q.defer();
 
     robocopy.on('exit', function(code) { 
         if (code > 8) deferred.reject({ 
             code: code, 
-            stdout: stdout.join(''), 
-            stderr: stderr.join('') });
-        else deferred.resolve(stdout.join(''));
+            stdout: stdout, 
+            stderr: stderr });
+        else deferred.resolve(stdout);
     });    
 
     return deferred.promise;   
