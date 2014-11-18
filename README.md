@@ -12,9 +12,7 @@ $ npm install robocopy --save
 
 ## Usage
 
-The options below mirror those of the robocopy command itself, so check 
-out the [robocopy documentation](http://technet.microsoft.com/en-us/library/cc733145.aspx) 
-for more details. The first parameter is the options:
+ The first parameter is the options:
 
 ```js
 var robocopy = require('robocopy');
@@ -41,6 +39,10 @@ robocopy({ ... })
         console.log(error.stderr);
     });
 ```
+
+The options below mirror those of the robocopy command itself, so check 
+out the [robocopy documentation](http://technet.microsoft.com/en-us/library/cc733145.aspx) 
+for more details.
 
 ```js
 robocopy({
