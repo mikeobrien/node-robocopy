@@ -28,8 +28,11 @@ module.exports = function(options) {
     var deferred = Q.defer();
 
     robocopy.on('exit', function(code) { 
-        if (code > 8) deferred.reject({ code: code, stdout: stdout, stderr: stderr });
-        else deferred.resolve(stdout);
+        if (code > 8) deferred.reject({ 
+            code: code, 
+            stdout: stdout.join(''), 
+            stderr: stderr.join('') });
+        else deferred.resolve(stdout.join(''));
     });    
 
     return deferred.promise;   

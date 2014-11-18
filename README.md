@@ -20,7 +20,7 @@ var robocopy = require('robocopy');
 robocopy({ ... });
 ```
 
-Robocopy returns a [promise](https://github.com/kriskowal/q). Success returns `stdout` as an array:
+Robocopy returns a [promise](https://github.com/kriskowal/q). Success returns `stdout`:
 
 ```js
 robocopy({ ... })
@@ -29,7 +29,7 @@ robocopy({ ... })
     });
 ```
 
-Failure returns and error object that indicates the return code and both `stdout` and `stderr` as an array:
+Failure returns and error object that indicates the return code and both `stdout` and `stderr`:
 
 ```js
 robocopy({ ... })
