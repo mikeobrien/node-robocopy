@@ -19,10 +19,10 @@ function toWindowsPath(path) {
     else return clean(path);
 };
 
-function toAbsolutePath(base, relativePath) {
+function toAbsolutePath(relativePath, base) {
     var toAbsolute = function(p) {
-        return _.startsWith(p, '\\\\') || _.include(p, ':') ? 
-            p : path.join(base, p);
+        return _.startsWith(p, '\\\\') || _.include(p, ':') ? p : 
+            (base ? path.join(base, p) : path.resolve(p));
     };
     if (relativePath instanceof Array) return relativePath.map(toAbsolute);
     else return toAbsolute(relativePath);
@@ -31,8 +31,11 @@ function toAbsolutePath(base, relativePath) {
 module.exports = function(options) {
     var args = [];
 
-    args.push(qualify(toWindowsPath(options.source)));
-    args.push(qualify(toWindowsPath(options.destination)));
+    var source = toAbsolutePath(options.source);
+    var destination = toAbsolutePath(options.destination);
+
+    args.push(qualify(toWindowsPath(source)));
+    args.push(qualify(toWindowsPath(destination)));
     args = args.concat(qualify(toWindowsPath(options.files)));
 
     if (options.copy) {
@@ -90,8 +93,8 @@ module.exports = function(options) {
             args.push('/xd');
 
             var excludeDirs = 
-                _.chain(toAbsolutePath(options.source, file.excludeDirs)
-                    .concat(toAbsolutePath(options.destination, file.excludeDirs)))
+                _.chain(toAbsolutePath(file.excludeDirs, source)
+                    .concat(toAbsolutePath(file.excludeDirs, destination)))
                     .uniq()
                     .map(toWindowsPath)
                     .map(qualify)
