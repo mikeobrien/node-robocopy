@@ -1,9 +1,9 @@
 var expect = require('expect.js'),
     command = require('../src/command.js');
 
-describe('task', function(){
+describe('command', function(){
 
-    it('should all options', function() {
+    it('should build all options', function() {
 
         var options = {
             source: 'c:/source/path',
@@ -159,53 +159,55 @@ describe('task', function(){
         expect(args[40]).to.be('"~*.*"');
         expect(args[41]).to.be('"*.tmp"');
         expect(args[42]).to.be('/xd');
-        expect(args[43]).to.be('"tmp"');
-        expect(args[44]).to.be('"obj"');
-        expect(args[45]).to.be('/xct');
-        expect(args[46]).to.be('/xn');
-        expect(args[47]).to.be('/xo');
-        expect(args[48]).to.be('/xx');
-        expect(args[49]).to.be('/xl');
-        expect(args[50]).to.be('/is');
-        expect(args[51]).to.be('/it');
-        expect(args[52]).to.be('/max:6');
-        expect(args[53]).to.be('/min:7');
-        expect(args[54]).to.be('/maxage:8');
-        expect(args[55]).to.be('/minage:9');
-        expect(args[56]).to.be('/maxlad:10');
-        expect(args[57]).to.be('/minlad:11');
-        expect(args[58]).to.be('/fft');
-        expect(args[59]).to.be('/dst');
-        expect(args[60]).to.be('/xj');
-        expect(args[61]).to.be('/xjd');
-        expect(args[62]).to.be('/xjf');
-        expect(args[63]).to.be('/r:12');
-        expect(args[64]).to.be('/w:13');
-        expect(args[65]).to.be('/reg');
-        expect(args[66]).to.be('/tbd');
-        expect(args[67]).to.be('/l');
-        expect(args[68]).to.be('/x');
-        expect(args[69]).to.be('/v');
-        expect(args[70]).to.be('/ts');
-        expect(args[71]).to.be('/fp');
-        expect(args[72]).to.be('/bytes');
-        expect(args[73]).to.be('/ns');
-        expect(args[74]).to.be('/nc');
-        expect(args[75]).to.be('/nfl');
-        expect(args[76]).to.be('/ndl');
-        expect(args[77]).to.be('/np');
-        expect(args[78]).to.be('/eta');
-        expect(args[79]).to.be('/unilog:"copy.log"');
-        expect(args[80]).to.be('/unicode');
-        expect(args[81]).to.be('/tee');
-        expect(args[82]).to.be('/njh');
-        expect(args[83]).to.be('/njs');
-        expect(args[84]).to.be('/job:"Derive Job Name"');
-        expect(args[85]).to.be('/save:"Save Job Name"');
-        expect(args[86]).to.be('/quit');
-        expect(args[87]).to.be('/nosd');
-        expect(args[88]).to.be('/nodd');
-        expect(args[89]).to.be('/if');
+        expect(args[43]).to.be('"c:\\source\\path\\tmp"');
+        expect(args[44]).to.be('"c:\\source\\path\\obj"');
+        expect(args[45]).to.be('"c:\\destination\\path\\tmp"');
+        expect(args[46]).to.be('"c:\\destination\\path\\obj"');
+        expect(args[47]).to.be('/xct');
+        expect(args[48]).to.be('/xn');
+        expect(args[49]).to.be('/xo');
+        expect(args[50]).to.be('/xx');
+        expect(args[51]).to.be('/xl');
+        expect(args[52]).to.be('/is');
+        expect(args[53]).to.be('/it');
+        expect(args[54]).to.be('/max:6');
+        expect(args[55]).to.be('/min:7');
+        expect(args[56]).to.be('/maxage:8');
+        expect(args[57]).to.be('/minage:9');
+        expect(args[58]).to.be('/maxlad:10');
+        expect(args[59]).to.be('/minlad:11');
+        expect(args[60]).to.be('/fft');
+        expect(args[61]).to.be('/dst');
+        expect(args[62]).to.be('/xj');
+        expect(args[63]).to.be('/xjd');
+        expect(args[64]).to.be('/xjf');
+        expect(args[65]).to.be('/r:12');
+        expect(args[66]).to.be('/w:13');
+        expect(args[67]).to.be('/reg');
+        expect(args[68]).to.be('/tbd');
+        expect(args[69]).to.be('/l');
+        expect(args[70]).to.be('/x');
+        expect(args[71]).to.be('/v');
+        expect(args[72]).to.be('/ts');
+        expect(args[73]).to.be('/fp');
+        expect(args[74]).to.be('/bytes');
+        expect(args[75]).to.be('/ns');
+        expect(args[76]).to.be('/nc');
+        expect(args[77]).to.be('/nfl');
+        expect(args[78]).to.be('/ndl');
+        expect(args[79]).to.be('/np');
+        expect(args[80]).to.be('/eta');
+        expect(args[81]).to.be('/unilog:"copy.log"');
+        expect(args[82]).to.be('/unicode');
+        expect(args[83]).to.be('/tee');
+        expect(args[84]).to.be('/njh');
+        expect(args[85]).to.be('/njs');
+        expect(args[86]).to.be('/job:"Derive Job Name"');
+        expect(args[87]).to.be('/save:"Save Job Name"');
+        expect(args[88]).to.be('/quit');
+        expect(args[89]).to.be('/nosd');
+        expect(args[90]).to.be('/nodd');
+        expect(args[91]).to.be('/if');
 
     });
 
@@ -265,14 +267,14 @@ describe('task', function(){
 
     });
 
-    it('should all options', function() {
+    it('should convert relative paths to absolute', function() {
 
         var options = {
             source: 'c:/source/path/',
             destination: 'c:/destination/path/',
             files: [],
             file: {
-                excludeDirs: ['tmp/', 'obj/'],
+                excludeDirs: ['tmp/', 'obj/', '../yada', 'c:\\yada', '\\\\someserver\\yada'],
             }
         };
 
@@ -282,11 +284,19 @@ describe('task', function(){
 
         var args = result.args;
 
+        expect(args.length).to.be(11);
+
         expect(args[0]).to.be('"c:\\source\\path"');
         expect(args[1]).to.be('"c:\\destination\\path"');
         expect(args[2]).to.be('/xd');
-        expect(args[3]).to.be('"tmp"');
-        expect(args[4]).to.be('"obj"');
+        expect(args[3]).to.be('"c:\\source\\path\\tmp"');
+        expect(args[4]).to.be('"c:\\source\\path\\obj"');
+        expect(args[5]).to.be('"c:\\source\\yada"');
+        expect(args[6]).to.be('"c:\\yada"');
+        expect(args[7]).to.be('"\\\\someserver\\yada"');
+        expect(args[8]).to.be('"c:\\destination\\path\\tmp"');
+        expect(args[9]).to.be('"c:\\destination\\path\\obj"');
+        expect(args[10]).to.be('"c:\\destination\\yada"');
 
     });
 

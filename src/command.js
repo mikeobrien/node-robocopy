@@ -1,3 +1,8 @@
+var path = require('path'),
+    _ = require('lodash');
+
+_.mixin(require('underscore.string').exports());
+
 function qualify(path) {
     var quote = function(p) { return '"' + p + '"'; };
     if (path instanceof Array) return path.map(quote);
@@ -13,6 +18,15 @@ function toWindowsPath(path) {
     if (path instanceof Array) return path.map(clean);
     else return clean(path);
 };
+
+function toAbsolutePath(base, relativePath) {
+    var toAbsolute = function(p) {
+        return _.startsWith(p, '\\\\') || _.include(p, ':') ? 
+            p : path.join(base, p);
+    };
+    if (relativePath instanceof Array) return relativePath.map(toAbsolute);
+    else return toAbsolute(relativePath);
+}
 
 module.exports = function(options) {
     var args = [];
@@ -74,7 +88,16 @@ module.exports = function(options) {
 
         if (file.excludeDirs && file.excludeDirs.length > 0) {
             args.push('/xd');
-            args = args.concat(qualify(toWindowsPath(file.excludeDirs)));
+
+            var excludeDirs = 
+                _.chain(toAbsolutePath(options.source, file.excludeDirs)
+                    .concat(toAbsolutePath(options.destination, file.excludeDirs)))
+                    .uniq()
+                    .map(toWindowsPath)
+                    .map(qualify)
+                    .value();
+
+            args = args.concat(excludeDirs);
         }
 
         if (file.excludeChangedFiles) args.push('/xct');

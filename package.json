@@ -1,6 +1,6 @@
 {
   "name": "robocopy",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Wrapper for Robocopy.",
   "homepage": "https://github.com/mikeobrien/node-robocopy",
   "main": "src/robocopy.js",
@@ -34,6 +34,8 @@
     "gulp-filter": "~1.0.2"
   },
   "dependencies": {
-    "q": "^1.1.1"
+    "lodash": "^2.4.1",
+    "q": "^1.1.1",
+    "underscore.string": "^2.4.0"
   }
 }
