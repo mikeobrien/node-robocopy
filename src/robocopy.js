@@ -1,6 +1,7 @@
 var robocopyCommand = require('./command'),
     process = require('child_process'),
-    Q = require('q');
+    Q = require('q'),
+    parser = require('./parser');
 
 module.exports = function(options) {
 
@@ -28,10 +29,13 @@ module.exports = function(options) {
     var deferred = Q.defer();
 
     robocopy.on('exit', function(code) { 
-        if (code > 8) deferred.reject({ 
-            code: code, 
-            stdout: stdout, 
-            stderr: stderr });
+        if (code > 8) 
+        {
+            var errors = parser(stdout);
+            var message = 'Robocopy failed (' + code + ')' + 
+                (errors || stderr ? ': \r\n' + (errors || stderr) : '.');
+            deferred.reject(new Error(message));
+        }
         else deferred.resolve(stdout);
     });    
 

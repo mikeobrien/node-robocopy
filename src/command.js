@@ -36,7 +36,8 @@ module.exports = function(options) {
 
     args.push(qualify(toWindowsPath(source)));
     args.push(qualify(toWindowsPath(destination)));
-    args = args.concat(qualify(toWindowsPath(options.files)));
+    if (options.files) 
+        args = args.concat(qualify(toWindowsPath(options.files)));
 
     if (options.copy) {
         var copy = options.copy;

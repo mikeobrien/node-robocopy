@@ -29,14 +29,12 @@ robocopy({ ... })
     });
 ```
 
-Failure returns and error object that indicates the return code and both `stdout` and `stderr`:
+Failure returns the error:
 
 ```js
 robocopy({ ... })
     .fail(function(error) {
-        console.log(error.code);
-        console.log(error.stdout);
-        console.log(error.stderr);
+        console.log(error.message);
     });
 ```
 
@@ -58,7 +56,6 @@ robocopy({
     files: ['*.html', '*.js', '/bin/*.*'],
 
     // Copy options
-
     copy: {
 
         // Copies subdirectories. Note that this option excludes empty directories. [/s]
@@ -174,7 +171,6 @@ robocopy({
     },
 
     // File options
-
     file: {
 
         // Copies only files for which the Archive attribute is set. [/a]
@@ -259,7 +255,6 @@ robocopy({
     },
 
     // Retry options
-
     retry: {
 
         // Specifies the number of retries on failed copies. The default value of N is
@@ -281,7 +276,6 @@ robocopy({
     },
 
     // Logging options
-
     logging: {
 
         // Specifies that files are to be listed only (and not copied, deleted, or
@@ -345,7 +339,6 @@ robocopy({
     },
 
     // Job options
-
     job: {
 
         // Specifies that parameters are to be derived from the named job file. [/job:<JobName>]
