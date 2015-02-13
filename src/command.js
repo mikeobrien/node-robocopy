@@ -7,7 +7,7 @@ function qualify(path) {
     var quote = function(p) { return '"' + p + '"'; };
     if (path instanceof Array) return path.map(quote);
     else return quote(path);
-};
+}
 
 function toWindowsPath(path) {
     var clean = function(p) {
@@ -17,7 +17,7 @@ function toWindowsPath(path) {
     };
     if (path instanceof Array) return path.map(clean);
     else return clean(path);
-};
+}
 
 function toAbsolutePath(relativePath, base) {
     var toAbsolute = function(p) {
@@ -28,7 +28,7 @@ function toAbsolutePath(relativePath, base) {
     else return toAbsolute(relativePath);
 }
 
-module.exports = function(options) {
+function buildCommand(options) {
     var args = [];
 
     var source = toAbsolutePath(options.source);
@@ -169,4 +169,12 @@ module.exports = function(options) {
         path: 'robocopy',
         args: args
     };
+}
+
+module.exports = function(options) {
+    return _.chain(_.isArray(options.destination) ? 
+        options.destination : [ options.destination ])
+        .map(function(destination) {
+            return buildCommand(_.defaults({ destination: destination }, options));
+        }).value();
 };

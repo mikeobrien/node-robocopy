@@ -1,13 +1,14 @@
 var expect = require('expect.js'),
+    _ = require('lodash'),
     command = require('../src/command.js');
 
-describe('command', function(){
+describe('command', function() {
 
-    it('should build all options', function() {
+    function buildOptions(destination) {
 
-        var options = {
+        return {
             source: 'c:/source/path',
-            destination: 'c:/destination/path',
+            destination: destination,
             files: ['*.html', '*.js', '/bin/*.*'],
             copy: {
                 subdirs: true,
@@ -109,15 +110,42 @@ describe('command', function(){
                 includesFiles: true
             }
         };
+    };
+
+    it('should build all options for a single destination', function() {
+
+        var options = buildOptions('c:/destination/path');
 
         var result = command(options);
 
-        expect(result.path).to.be('robocopy');
+        expect(result).to.have.length(1);
 
-        var args = result.args;
+        expect(result[0].path).to.be('robocopy');
+
+        args_should_equal(result[0].args, 'c:\\destination\\path');
+
+    });
+
+    it('should build all options for multiple destinations', function() {
+
+        var options = buildOptions(['c:/destination/path1', 'c:/destination/path2']);
+
+        var result = command(options);
+
+        expect(result).to.have.length(2);
+
+        expect(result[0].path).to.be('robocopy');
+        args_should_equal(result[0].args, 'c:\\destination\\path1');
+
+        expect(result[1].path).to.be('robocopy');
+        args_should_equal(result[1].args, 'c:\\destination\\path2');
+
+    });
+
+    function args_should_equal(args, destination) {
 
         expect(args[0]).to.be('"c:\\source\\path"');
-        expect(args[1]).to.be('"c:\\destination\\path"');
+        expect(args[1]).to.be('"' + destination + '"');
         expect(args[2]).to.be('"*.html"');
         expect(args[3]).to.be('"*.js"');
         expect(args[4]).to.be('"\\bin\\*.*"');
@@ -161,8 +189,8 @@ describe('command', function(){
         expect(args[42]).to.be('/xd');
         expect(args[43]).to.be('"c:\\source\\path\\tmp"');
         expect(args[44]).to.be('"c:\\source\\path\\obj"');
-        expect(args[45]).to.be('"c:\\destination\\path\\tmp"');
-        expect(args[46]).to.be('"c:\\destination\\path\\obj"');
+        expect(args[45]).to.be('"' + destination + '\\tmp"');
+        expect(args[46]).to.be('"' + destination + '\\obj"');
         expect(args[47]).to.be('/xct');
         expect(args[48]).to.be('/xn');
         expect(args[49]).to.be('/xo');
@@ -209,7 +237,7 @@ describe('command', function(){
         expect(args[90]).to.be('/nodd');
         expect(args[91]).to.be('/if');
 
-    });
+    };
 
     it('should not set thread count if a bool', function() {
 
@@ -222,7 +250,7 @@ describe('command', function(){
             }
         };
 
-        var args = command(options).args;
+        var args = command(options)[0].args;
 
         expect(args[2]).to.be('/MT');
 
@@ -242,7 +270,7 @@ describe('command', function(){
             }
         };
 
-        var args = command(options).args;
+        var args = command(options)[0].args;
 
         expect(args[2]).to.be('/log:"copy.log"');
 
@@ -261,7 +289,7 @@ describe('command', function(){
             }
         };
 
-        var args = command(options).args;
+        var args = command(options)[0].args;
 
         expect(args[2]).to.be('/log+:"copy.log"');
 
@@ -280,9 +308,9 @@ describe('command', function(){
 
         var result = command(options);
 
-        expect(result.path).to.be('robocopy');
+        expect(result[0].path).to.be('robocopy');
 
-        var args = result.args;
+        var args = result[0].args;
 
         expect(args.length).to.be(11);
 

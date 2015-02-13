@@ -46,10 +46,14 @@ for more details.
 robocopy({
 
     // Specifies the path to the source directory.
-    source: '',
+    source: 'source/path',
 
-    // Specifies the path to the destination directory.
-    destination: '',
+    // Specifies the destination path(s).
+    destination: 'dest/path' | [ 'dest/path1', 'dest/path2', ... ],
+
+    // Indicates if multiple destinations should be copied serialy. By default 
+    // multiple destinations are copied in parallel.
+    serial: true|false,
 
     // Specifies the file or files to be copied. You can use wildcard characters (* or ?), if
     // you want. If the File parameter is not specified, *.* is used as the default value.

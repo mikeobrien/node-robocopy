@@ -3,9 +3,9 @@ var gulp = require('gulp'),
     mocha = require('gulp-mocha'),
     process = require('child_process');
 
-gulp.task('default', ['test', 'lint']);
+gulp.task('default', ['lint']);
 
-gulp.task('lint', function() {
+gulp.task('lint', ['test'], function() {
     return gulp.src(['**/*.js', '!node_modules/**/*'])
         .pipe(jshint({ node: true }))
         .pipe(jshint.reporter('default'));
