@@ -92,8 +92,8 @@ function buildCommand(options) {
 
         if (file.excludeDirs && file.excludeDirs.length > 0) {
             args.push('/xd');
-
-            var excludeDirs = 
+	    if(file.excludeDirsAbsolute) {
+		 var excludeDirs = 
                 _.chain(toAbsolutePath(file.excludeDirs, source)
                     .concat(toAbsolutePath(file.excludeDirs, destination)))
                     .uniq()
@@ -101,7 +101,14 @@ function buildCommand(options) {
                     .map(qualify)
                     .value();
 
-            args = args.concat(excludeDirs);
+                 args = args.concat(excludeDirs);
+	    } else {
+
+		args = args.concat(qualify(toWindowsPath(file.excludeDirs)));
+
+	    }
+		
+           
         }
 
         if (file.excludeChangedFiles) args.push('/xct');
