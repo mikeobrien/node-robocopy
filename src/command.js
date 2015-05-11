@@ -100,15 +100,10 @@ function buildCommand(options) {
                     .map(toWindowsPath)
                     .map(qualify)
                     .value();
-
                  args = args.concat(excludeDirs);
 	    } else {
-
 		args = args.concat(qualify(toWindowsPath(file.excludeDirs)));
-
-	    }
-		
-           
+	    }    
         }
 
         if (file.excludeChangedFiles) args.push('/xct');
