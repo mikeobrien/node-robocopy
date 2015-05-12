@@ -199,8 +199,9 @@ robocopy({
         // [/xd <Directory>[ ...]]
         excludeDirs: ['tmp', 'obj'],
 
-	// Excludes directories that match the specified names in top level directory only
-        excludeDirsAbsolute: true|false,
+        // Leaves excluded directories as relative paths. 
+        // Converts to absolute paths by default.
+        excludeDirsRelative: true|false,
 
         // Excludes changed files. [/xct]
         excludeChangedFiles: true|false,

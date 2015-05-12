@@ -328,4 +328,35 @@ describe('command', function() {
 
     });
 
+    it('should leave paths relative when configured', function() {
+
+        var options = {
+            source: 'c:/source/path/',
+            destination: 'c:/destination/path/',
+            files: [],
+            file: {
+                excludeDirs: ['tmp/', 'obj/', '../yada', 'c:\\yada', '\\\\someserver\\yada'],
+                excludeDirsRelative: true
+            }
+        };
+
+        var result = command(options);
+
+        expect(result[0].path).to.be('robocopy');
+
+        var args = result[0].args;
+
+        expect(args.length).to.be(8);
+
+        expect(args[0]).to.be('"c:\\source\\path"');
+        expect(args[1]).to.be('"c:\\destination\\path"');
+        expect(args[2]).to.be('/xd');
+        expect(args[3]).to.be('"tmp"');
+        expect(args[4]).to.be('"obj"');
+        expect(args[5]).to.be('"..\\yada"');
+        expect(args[6]).to.be('"c:\\yada"');
+        expect(args[7]).to.be('"\\\\someserver\\yada"');;
+
+    });
+
 });
