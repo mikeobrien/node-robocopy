@@ -92,17 +92,17 @@ function buildCommand(options) {
 
         if (file.excludeDirs && file.excludeDirs.length > 0) {
             args.push('/xd');
-	    if(file.excludeDirsAbsolute) {
-		 var excludeDirs = 
+	    if(file.excludeDirsAbsolute && file.excludeDirsAbsolute == false) {
+		args = args.concat(qualify(toWindowsPath(file.excludeDirs)));
+	    } else {
+		var excludeDirs = 
                 _.chain(toAbsolutePath(file.excludeDirs, source)
                     .concat(toAbsolutePath(file.excludeDirs, destination)))
                     .uniq()
                     .map(toWindowsPath)
                     .map(qualify)
                     .value();
-                 args = args.concat(excludeDirs);
-	    } else {
-		args = args.concat(qualify(toWindowsPath(file.excludeDirs)));
+                args = args.concat(excludeDirs);
 	    }    
         }
 
