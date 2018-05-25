@@ -27,7 +27,7 @@ module.exports = function(command) {
         }).on('line', function(line) {
             output += log(line);
         });
-    }
+    };
 
     redirect(robocopy.stdout, stdout);
     redirect(robocopy.stderr, stderr);
