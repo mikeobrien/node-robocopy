@@ -1,6 +1,7 @@
 var process = require('child_process'),
     Q = require('q'),
-    parser = require('./parser');
+    parser = require('./parser'),
+    readline = require('readline');
 
 module.exports = function(command) {
 
@@ -20,8 +21,16 @@ module.exports = function(command) {
     var stdout = '';
     var stderr = '';
 
-    robocopy.stdout.on('data', function(message) { stdout += log(message); });
-    robocopy.stderr.on('data', function(message) { stderr += log(message); });
+    var redirect = function (input, output) {
+        readline.createInterface({
+            input: input
+        }).on('line', function(line) {
+            output += log(line);
+        });
+    }
+
+    redirect(robocopy.stdout, stdout);
+    redirect(robocopy.stderr, stderr);
 
     var deferred = Q.defer();
 
