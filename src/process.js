@@ -21,16 +21,14 @@ module.exports = function(command) {
     var stdout = '';
     var stderr = '';
 
-    var redirect = function (input, output) {
+    var readlines = function (input, listener) {
         readline.createInterface({
             input: input
-        }).on('line', function(line) {
-            output += log(line);
-        });
+        }).on('line', listener);
     };
 
-    redirect(robocopy.stdout, stdout);
-    redirect(robocopy.stderr, stderr);
+    readlines(robocopy.stdout, function(line) { stdout += log(line); });
+    readlines(robocopy.stderr, function(line) { stderr += log(line); });
 
     var deferred = Q.defer();
 
