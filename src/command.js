@@ -15,7 +15,7 @@ function toWindowsPath(path) {
         if (p.substr(-1) === '\\') p = p.substr(0, p.length - 1);
         return p;
     };
-    if (path instanceof Array) return path.map(clean);
+    if (Array.isArray(path)) return path.map(clean);
     else return clean(path);
 }
 
@@ -24,7 +24,7 @@ function toAbsolutePath(relativePath, base) {
         return _.startsWith(p, '\\\\') || _.include(p, ':') ? p : 
             (base ? path.join(base, p) : path.resolve(p));
     };
-    if (relativePath instanceof Array) return relativePath.map(toAbsolute);
+    if (Array.isArray(relativePath)) return relativePath.map(toAbsolute);
     else return toAbsolute(relativePath);
 }
 
